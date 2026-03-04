@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>For Little Bunny 💜</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
@@ -15,7 +15,8 @@ body {
   text-align: center;
   padding: 40px;
   color: #4b2e83;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: visible;
 }
 
 /* Handwriting animation */
@@ -43,6 +44,11 @@ body {
   margin-top: 20px;
 }
 
+p {
+  font-size: 30px;
+}
+
+/* Message box */
 .message-box {
   font-size: 30px;
   margin-top: 30px;
@@ -84,10 +90,11 @@ button:hover {
   opacity: 0;
   pointer-events: none;
   transition: all 0.8s ease;
+  z-index: 9999;
 }
 
 .big-heart.show {
-  transform: translate(-50%, -50%) scale(1.6);
+  transform: translate(-50%, -50%) scale(1.5);
   opacity: 0.95;
 }
 
@@ -99,6 +106,8 @@ button:hover {
   color: #c084fc;
   animation: floatUp 6s linear infinite;
   opacity: 0.7;
+  pointer-events: none;
+  z-index: 9998;
 }
 
 @keyframes floatUp {
@@ -112,21 +121,60 @@ button:hover {
   top: -50px;
   font-size: 28px;
   animation: fall 5s linear forwards;
+  z-index: 9997;
 }
 
 @keyframes fall {
   to { transform: translateY(110vh); }
+}
+
+/* ===== MOBILE FIXES ===== */
+@media (max-width: 768px) {
+  body {
+    padding: 20px;
+  }
+
+  .typewriter {
+    white-space: normal;
+    width: 100%;
+    border-right: none;
+    animation: none;
+    font-size: 28px;
+  }
+
+  .subtitle {
+    font-size: 20px;
+  }
+
+  p {
+    font-size: 20px;
+  }
+
+  .message-box {
+    font-size: 22px;
+  }
+
+  button {
+    font-size: 18px;
+    padding: 12px 20px;
+  }
+
+  .big-heart {
+    font-size: 140px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<h1 class="typewriter">You Don’t Have To Carry Everything Alone, Little Bunny 💜</h1>
+<h1 class="typewriter">
+You Don’t Have To Carry Everything Alone, Little Bunny 💜
+</h1>
 
 <div class="subtitle">Especially not on days like today.</div>
 
-<p style="font-size:30px;">
+<p>
 Even strong girls like you get tired.<br>
 This little purple world exists just for you.
 </p>
@@ -199,40 +247,7 @@ function bunnyRain() {
     setTimeout(() => bunny.remove(), 5000);
   }
 }
-  /* === Responsive adjustment (phone + laptop) === */
-@media (max-width: 768px) {
-  body {
-    padding: 20px;
-  }
-
-  .typewriter {
-    font-size: 28px;
-  }
-
-  .subtitle {
-    font-size: 20px;
-  }
-
-  p {
-    font-size: 20px;
-  }
-
-  .message-box {
-    font-size: 22px;
-  }
-
-  button {
-    font-size: 18px;
-    padding: 12px 20px;
-  }
-
-  .big-heart {
-    font-size: 140px;
-  }
-}
 </script>
 
 </body>
-
 </html>
-
