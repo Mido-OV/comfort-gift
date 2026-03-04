@@ -21,7 +21,7 @@ body {
 /* TITLE */
 h1 {
   font-size: 32px;
-  margin-bottom: 12px;
+  min-height: 80px;
 }
 
 /* TEXT */
@@ -37,7 +37,7 @@ p {
 /* BUTTON */
 button {
   margin-top: 20px;
-  padding: 12px 22px;
+  padding: 14px 26px;
   font-size: 18px;
   border-radius: 30px;
   border: none;
@@ -46,9 +46,11 @@ button {
   cursor: pointer;
 }
 
+/* COUNTER */
 .counter {
-  margin-top: 10px;
-  font-size: 16px;
+  margin-top: 12px;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 /* MESSAGE */
@@ -56,8 +58,7 @@ button {
   font-size: 22px;
   margin-top: 20px;
   min-height: 60px;
-  opacity: 0;
-  transition: opacity 0.4s ease;
+  opacity: 1;
 }
 
 /* BIG HEART */
@@ -66,7 +67,7 @@ button {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
-  font-size: 140px;
+  font-size: 160px;
   color: #c084fc;
   opacity: 0;
   pointer-events: none;
@@ -76,15 +77,15 @@ button {
 
 .big-heart.show {
   transform: translate(-50%, -50%) scale(1.4);
-  opacity: 0.95;
+  opacity: 1;
 }
 
 /* FLOATING HEARTS */
 .floating-heart {
   position: fixed;
   bottom: -40px;
-  font-size: 24px;
-  animation: floatUp 6s linear forwards;
+  font-size: 26px;
+  animation: floatUp 5s linear forwards;
   pointer-events: none;
   z-index: 9998;
 }
@@ -92,26 +93,12 @@ button {
 @keyframes floatUp {
   to { transform: translateY(-120vh); }
 }
-
-/* BUNNIES */
-.bunny {
-  position: fixed;
-  top: -40px;
-  font-size: 26px;
-  animation: fall 5s linear forwards;
-  pointer-events: none;
-  z-index: 9997;
-}
-
-@keyframes fall {
-  to { transform: translateY(120vh); }
-}
 </style>
 </head>
 
 <body>
 
-<h1>You Don’t Have To Carry Everything Alone, Little Bunny 💜</h1>
+<h1 id="title"></h1>
 
 <div class="subtitle">Especially not on days like today.</div>
 
@@ -127,12 +114,24 @@ This little purple world exists just for you.
 
 <div class="big-heart" id="heart">💜</div>
 
-<!-- AUDIO (starts on first click) -->
 <audio id="bgMusic" loop>
   <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8f8c1c1f2.mp3" type="audio/mpeg">
 </audio>
 
 <script>
+/* ===== TYPING EFFECT (SAFE) ===== */
+const titleText = "You Don’t Have To Carry Everything Alone, Little Bunny 💜";
+let tIndex = 0;
+function typeTitle() {
+  if (tIndex < titleText.length) {
+    document.getElementById("title").textContent += titleText.charAt(tIndex);
+    tIndex++;
+    setTimeout(typeTitle, 50);
+  }
+}
+typeTitle();
+
+/* ===== MAIN LOGIC ===== */
 let clicks = 0;
 let musicStarted = false;
 
@@ -153,44 +152,35 @@ function dropWeight() {
   const music = document.getElementById("bgMusic");
 
   if (!musicStarted) {
+    music.volume = 0.4;
     music.play().catch(()=>{});
     musicStarted = true;
   }
 
   msg.textContent = messages[clicks];
-  msg.style.opacity = 1;
   clicks++;
   counter.textContent = clicks + " / 5 comfort drops";
 
   heart.classList.add("show");
   setTimeout(() => heart.classList.remove("show"), 600);
 
+  /* MANY HEARTS */
+  for (let i = 0; i < 8; i++) {
+    createHeart();
+  }
+}
+
+function createHeart() {
   const h = document.createElement("div");
   h.className = "floating-heart";
   h.textContent = "💜";
   h.style.left = Math.random() * 100 + "vw";
   document.body.appendChild(h);
-  setTimeout(() => h.remove(), 6000);
-
-  if (clicks === 5) {
-    setTimeout(bunnyRain, 500);
-    setTimeout(() => {
-      msg.style.opacity = 0.8;
-      counter.textContent = "Thank you for being here 💜";
-    }, 1200);
-  }
+  setTimeout(() => h.remove(), 5000);
 }
 
-function bunnyRain() {
-  for (let i = 0; i < 15; i++) {
-    const b = document.createElement("div");
-    b.className = "bunny";
-    b.textContent = "🐰";
-    b.style.left = Math.random() * 100 + "vw";
-    document.body.appendChild(b);
-    setTimeout(() => b.remove(), 5000);
-  }
-}
+/* CONTINUOUS HEART RAIN */
+setInterval(createHeart, 700);
 </script>
 
 </body>
